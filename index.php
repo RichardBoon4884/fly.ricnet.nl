@@ -29,7 +29,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Secure Login: Log In</title>
+        <title>Ricnet Fly</title>
         <link rel="stylesheet" href="styles/main.css" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
@@ -50,9 +50,8 @@ if (login_check($mysqli) == true) {
                    onclick="formhash(this.form, this.form.password);" /> 
         </form>
         <p>If you don't have a login, please <a href="register.php">register</a></p>
-        <p>If you are done, please <a href="includes/logout.php">log out</a>.</p>
         <p>You are currently logged <?php echo $logged; ?>.</p>
-        
+        <?php if (login_check($mysqli) == true) { header("Location: ../crew/");} ?>
 
     </body>
 </html>
