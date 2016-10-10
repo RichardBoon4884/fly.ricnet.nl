@@ -70,10 +70,18 @@ if (login_check($mysqli) == true) {
             position: absolute;
             right: 0;
         }
+        h1 {
+            position: absolute;
+            margin: 0;
+            left: 180px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
         </style>
     </head>
     <body>
         <main>
+            <h1><img src="/img/logo_ricnetfly.png" alt="ricnet air"></h1>
             <div class="frame">
                 <h2>Crew area login</h2>
                 <form action="includes/process_login.php" method="post" name="login_form">
