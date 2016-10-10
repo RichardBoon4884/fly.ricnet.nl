@@ -65,14 +65,14 @@ if (login_check($mysqli) == true) {
             margin: 0 0 10px 6px;
             text-transform: uppercase;
         }
+        .error {
+            display: inline;
+            position: absolute;
+            right: 0;
+        }
         </style>
     </head>
     <body>
-        <?php
-        if (isset($_GET['error'])) {
-            echo '<p class="error">Error Logging In!</p>';
-        }
-        ?> 
         <main>
             <div class="frame">
                 <h2>Crew area login</h2>
@@ -86,7 +86,12 @@ if (login_check($mysqli) == true) {
                             <input type="password" name="password" id="password"/>
                             <label for="password">Password</label>
                         </div>
-                        <input class="waves-effect waves-light btn" type="button" value="Login" onclick="formhash(this.form, this.form.password);" /> 
+                        <input class="waves-effect waves-light btn" type="button" value="Login" onclick="formhash(this.form, this.form.password);" />
+                        <?php
+                            if (isset($_GET['error'])) {
+                            echo '<p class="error">Email or password is wrong.</p>';
+                        }
+                    ?> 
                     </div>
                 </form>
             </div>
