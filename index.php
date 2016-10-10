@@ -33,6 +33,39 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="styles/main.css" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="styles/materialize.css"  media="screen,projection"/>
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/JavaScript" src="js/materialize.js"></script> 
+        <style type="text/css">
+        body {
+            background-image: url("/styles/img/index.png");
+            background-repeat: no-repeat;
+            background-size: 100%;
+            margin: 0;
+            font-family: Roboto, Arial;
+        }
+        main {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: #fff;
+        }
+        .frame {
+            position: absolute;
+            display: inline-block;
+            right: 140px;
+            width: 500px;
+            margin: 20px;
+        }
+        h2 {
+            font-size: 30px;
+            margin: 0 0 10px 6px;
+            text-transform: uppercase;
+        }
+        </style>
     </head>
     <body>
         <?php
@@ -40,18 +73,24 @@ if (login_check($mysqli) == true) {
             echo '<p class="error">Error Logging In!</p>';
         }
         ?> 
-        <form action="includes/process_login.php" method="post" name="login_form"> 			
-            Email: <input type="text" name="email" />
-            Password: <input type="password" 
-                             name="password" 
-                             id="password"/>
-            <input type="button" 
-                   value="Login" 
-                   onclick="formhash(this.form, this.form.password);" /> 
-        </form>
-        <p>If you don't have a login, please <a href="register.php">register</a></p>
-        <p>You are currently logged <?php echo $logged; ?>.</p>
-        <?php if (login_check($mysqli) == true) { header("Location: ../crew/");} ?>
-
+        <main>
+            <div class="frame">
+                <h2>Crew area login</h2>
+                <form action="includes/process_login.php" method="post" name="login_form">
+                 <div class="row">			
+                        <div class="input-field col s6">
+                            <input id="email" type="text" name="email" />
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="password" name="password" id="password"/>
+                            <label for="password">Password</label>
+                        </div>
+                        <input class="waves-effect waves-light btn" type="button" value="Login" onclick="formhash(this.form, this.form.password);" /> 
+                    </div>
+                </form>
+            </div>
+            <?php if (login_check($mysqli) == true) { header("Location: ../crew/");} ?>
+        </main>
     </body>
 </html>
