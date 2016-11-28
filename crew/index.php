@@ -22,25 +22,36 @@ sec_session_start();
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Ricnet Fly - Crew area</title>
-        <link rel="stylesheet" href="styles/main.css" />
-    </head>
-    <body>
-        <?php if (login_check($mysqli) == true) : ?>
-        <p>Welcome <?php echo htmlentities($_SESSION['firstname']); ?>, you're are a <?php echo htmlentities($_SESSION['type']); ?>!</p>
-            <p>
-                This is an example protected page.  To access this page, users
-                must be logged in.  At some stage, we'll also check the role of
-                the user, so pages will be able to determine the type of user
-                authorised to access the page.
-            </p>
-            <p>If you are done, please <a href="/includes/logout.php">log out</a>.</p>
-        <?php else : ?>
-            <p>
-                <span class="error">You are not authorized to access this page.</span> Please <a href="/">login</a>.
-            </p>
-        <?php endif; ?>
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>Ricnet Fly - Crew area</title>
+		<link rel="stylesheet" href="/crew/styles/main.css" />
+	</head>
+	<body>
+		<?php if (login_check($mysqli) == true) : ?>
+		<header>
+			<h1>Ricnet Fly</h1>
+			<nav>
+				<ul>
+                    <li><a id="logout" href="/includes/logout.php">log out</a></li>
+                    <li><span><?php echo htmlentities($_SESSION['firstname']); ?></span></li>
+                </ul>
+			</nav>
+		</header>
+        <nav id="sideMenu">
+            <ul>
+                <li><a href="/crew">Overview</a></li>
+                <li><a href="/crew/addflight">Add a flight</a></li>
+                <li><a href="/crew/charts">Charts</a></li>
+            </ul>
+        </nav>
+        <main>
+            <p>Welcome <?php echo htmlentities($_SESSION['firstname']); ?>, you're are a <?php echo htmlentities($_SESSION['type']); ?>!</p>
+        </main>
+		<?php else : ?>
+			<p>
+				<span class="error">You are not authorized to access this page.</span> Please <a href="/">login</a>.
+			</p>
+		<?php endif; ?>
+	</body>
 </html>
