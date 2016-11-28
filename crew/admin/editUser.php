@@ -41,9 +41,18 @@ sec_session_start();
                 }
                 ?>
                 <?php
-                    $nameUrl = filter_input(INPUT_GET, 'user');
-                    echo '<p>'+$nameUrl+'</p>';
+                    $nameUrl = filter_input(INPUT_GET, 'user', $filter = FILTER_SANITIZE_STRING);
+                    if ($nameUrl == null):
                 ?>
+                <script type="text/javascript">
+                    function user() {
+                        let userNameInput = document.getElementById('username').value;
+                        let localUrl = 'http://localhost:8000/crew/admin/editUser.php?user=';
+                        window.location = localUrl + userNameInput;
+                    }
+                </script>
+                Username: <input type='text' name='username' id='username'/><button onclick="user()">Go</button><br>
+                <?php elseif ($nameUrl != null): ?>
                 <ul>
                     <li>Usernames may contain only digits, upper and lower case letters and underscores</li>
                     <li>Emails must have a valid email format</li>
@@ -79,6 +88,7 @@ sec_session_start();
                                            this.form.firstname,
                                            this.form.lastname);" /> 
                 </form>
+                <?php endif; ?>
             </main>
         <?php elseif ($_SESSION['type'] != "administrator"): ?>
             <p>
