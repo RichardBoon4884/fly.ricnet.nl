@@ -24,7 +24,7 @@ sec_session_start();
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Ricnet Fly - Admin area - Add user</title>
+        <title>Ricnet Fly - Admin area - Edit user</title>
         <script type="text/JavaScript" src="/js/sha512.js"></script> 
         <script type="text/JavaScript" src="/js/forms.js"></script>
         <link rel="stylesheet" href="/crew/styles/main.css" />
@@ -34,11 +34,15 @@ sec_session_start();
             <?php include '/includes_page/header.php'; ?>
             <?php include '/includes_page/sideMenu.php'; ?>
             <main>
-                <h1>Add user</h1>
+                <h1>Edit user</h1>
                 <?php
                 if (!empty($error_msg)) {
                     echo $error_msg;
                 }
+                ?>
+                <?php
+                    $nameUrl = filter_input(INPUT_GET, 'user');
+                    echo '<p>'+$nameUrl+'</p>';
                 ?>
                 <ul>
                     <li>Usernames may contain only digits, upper and lower case letters and underscores</li>

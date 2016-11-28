@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-include_once '../includes/db_connect.php';
-include_once '../includes/functions.php';
+include_once '../../includes/db_connect.php';
+include_once '../../includes/functions.php';
 
 sec_session_start();
 ?>
@@ -24,34 +24,19 @@ sec_session_start();
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Ricnet Fly - Crew area</title>
+		<title>Ricnet Fly - Admin area</title>
 		<link rel="stylesheet" href="/crew/styles/main.css" />
 	</head>
 	<body>
-		<?php if (login_check($mysqli) == true) : ?>
-		<header>
-			<h1>Ricnet Fly</h1>
-			<nav>
-				<ul>
-                    <?php if ($_SESSION['type'] == 'administrator') {echo '<li><a id="admin" href="/crew/admin">Admin area</a></li>';} ?>
-                    <li><a id="logout" href="/includes/logout.php">log out</a></li>
-                    <li><span><?php echo htmlentities($_SESSION['firstname']); ?></span></li>
-                </ul>
-			</nav>
-		</header>
-        <nav id="sideMenu">
-            <ul>
-                <li><a href="/crew">Overview</a></li>
-                <li><a href="/crew/addflight">Add a flight</a></li>
-                <li><a href="/crew/charts">Charts</a></li>
-            </ul>
-        </nav>
+		<?php if (login_check($mysqli) == true and $_SESSION['type'] == "administrator") : ?>
+		<?php include '/includes_page/header.php'; ?>
+        <?php include '/includes_page/sideMenu.php'; ?>
         <main>
             <p>Welcome <?php echo htmlentities($_SESSION['firstname']); ?>, you're are a <?php echo htmlentities($_SESSION['type']); ?>!</p>
         </main>
 		<?php else : ?>
 			<p>
-				<span class="error">You are not authorized to access this page.</span> Please <a href="/">login</a>.
+				<span class="error">You are not authorized to access this page.</span> Please <a href="/crew">return</a>.
 			</p>
 		<?php endif; ?>
 	</body>
