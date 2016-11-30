@@ -88,3 +88,23 @@ function regformhash(form, uid, email, password, conf, firstname, lastname, role
     form.submit();
     return true;
 }
+
+function updateUserFormCheck(form, uid, email, firstname, lastname, role) {
+    // Check each field has a value
+    if (uid.value == '' || email.value == '' || firstname.value == ''  || lastname.value == '') {
+        alert('You must provide all the requested details. Please try again');
+        return false;
+    }
+    
+    // Check the username
+    re = /^\w+$/; 
+    if(!re.test(form.username.value)) { 
+        alert("Username must contain only letters, numbers and underscores. Please try again"); 
+        form.username.focus();
+        return false; 
+    }
+
+    // Finally submit the form. 
+    form.submit();
+    return true;
+}

@@ -41,18 +41,15 @@ sec_session_start();
                 }
                 ?>
                 <?php
-                    $nameUrl = filter_input(INPUT_GET, 'user', $filter = FILTER_SANITIZE_STRING);
-                    if ($nameUrl == null):
+                    if (isset($_POST['usernameSearch']) == false or $_POST['usernameSearch'] == ''):
                 ?>
-                <script type="text/javascript">
-                    function user() {
-                        let userNameInput = document.getElementById('username').value;
-                        let localUrl = 'http://localhost:8000/crew/admin/editUser.php?user=';
-                        window.location = localUrl + userNameInput;
-                    }
-                </script>
-                Username: <input type='text' name='username' id='username'/><button onclick="user()">Go</button><br>
-                <?php elseif ($nameUrl != null): ?>
+                <form method="post">
+                    Username: <input type="username" name="usernameSearch">
+                    <input type="submit" name="send" value="Go">
+                </form>
+                <?php
+                    elseif (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != ''):
+                ?>           
                 <ul>
                     <li>Usernames may contain only digits, upper and lower case letters and underscores</li>
                     <li>Emails must have a valid email format</li>
@@ -69,25 +66,25 @@ sec_session_start();
                 <form method="post" name="registration_form" action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>">
                     Username: <input type='text' name='username' id='username' /><br>
                     Email: <input type="text" name="email" id="email" /><br>
+                    First name: <input type='text' name='firstname' id='firstname' /><br>
+                    Last name: <input type='text' name='lastname' id='lastname' /><br>
+                    Role: <select name='role' id='role'><option value="demo">Demo</option><option value="user">User</option><option value="administrator">Administrator</option></select><br>
+                    <input type="button" 
+                           value="Register" 
+                           onclick="return updateUserFormCheck(this.form,
+                                           this.form.username,
+                                           this.form.email,
+                                           this.form.firstname,
+                                           this.form.lastname,
+                                           this.form.role);" /> 
+                </form>
+                <form>
                     Password: <input type="password"
                                      name="password" 
                                      id="password"/><br>
                     Confirm password: <input type="password" 
                                              name="confirmpwd" 
                                              id="confirmpwd" /><br>
-                    First name: <input type='text' name='firstname' id='firstname' /><br>
-                    Last name: <input type='text' name='lastname' id='lastname' /><br>
-                    Role: <select name='role' id='role'><option value="demo">Demo</option><option value="user">User</option><option value="administrator">Administrator</option></select><br>
-                    <input type="button" 
-                           value="Register" 
-                           onclick="return regformhash(this.form,
-                                           this.form.username,
-                                           this.form.email,
-                                           this.form.password,
-                                           this.form.confirmpwd,
-                                           this.form.firstname,
-                                           this.form.lastname,
-                                           this.form.role);" /> 
                 </form>
                 <?php endif; ?>
             </main>
