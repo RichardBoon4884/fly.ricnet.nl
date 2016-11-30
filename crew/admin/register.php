@@ -64,7 +64,12 @@ sec_session_start();
                                              id="confirmpwd" /><br>
                     First name: <input type='text' name='firstname' id='firstname' /><br>
                     Last name: <input type='text' name='lastname' id='lastname' /><br>
-                    Role: <select><option>Demo</option><option>User</option><option>Administrator</option></select><br>
+                    Role: 
+                    <select name='role' id='role'>
+                        <option value="demo">Demo</option>
+                        <option value="user">User</option>
+                        <option value="administrator">Administrator</option>
+                    </select><br>
                     <input type="button" 
                            value="Register" 
                            onclick="return regformhash(this.form,
@@ -73,7 +78,8 @@ sec_session_start();
                                            this.form.password,
                                            this.form.confirmpwd,
                                            this.form.firstname,
-                                           this.form.lastname);" /> 
+                                           this.form.lastname,
+                                           this.form.role);" /> 
                 </form>
             </main>
         <?php elseif ($_SESSION['type'] != "administrator"): ?>
