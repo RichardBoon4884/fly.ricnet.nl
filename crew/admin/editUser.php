@@ -48,7 +48,7 @@ sec_session_start();
                     <input type="submit" name="send" value="Go">
                 </form>
                 <?php
-                    elseif (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != ''):
+                    elseif (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '' and $_POST['usernameSearch'] == $formUsername):
                 ?>           
                 <ul>
                     <li>Usernames may contain only digits, upper and lower case letters and underscores</li>
@@ -64,13 +64,17 @@ sec_session_start();
                     <li>Your password and confirmation must match exactly</li>
                 </ul>
                 <form method="post" name="registration_form" action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>">
-                    Username: <input type='text' name='username' id='username' /><br>
-                    Email: <input type="text" name="email" id="email" /><br>
-                    First name: <input type='text' name='firstname' id='firstname' /><br>
-                    Last name: <input type='text' name='lastname' id='lastname' /><br>
-                    Role: <select name='role' id='role'><option value="demo">Demo</option><option value="user">User</option><option value="administrator">Administrator</option></select><br>
+                    Username: <input type='text' name='username' id='username' value="<?php echo $formUsername; ?>" disabled/><br>
+                    Email: <input type="text" name="email" id="email" value="<?php echo $formEmail; ?>"/><br>
+                    First name: <input type='text' name='firstname' id='firstname' value="<?php echo $formFirstname; ?>"/><br>
+                    Last name: <input type='text' name='lastname' id='lastname' value="<?php echo $formLastname; ?>"/><br>
+                    Role:
+                    <select name='role' id='role'>
+                        <option value="demo" <?php if ($formType == 'demo') {echo 'selected="selected"';} ?>>Demo</option>
+                        <option value="user" <?php if ($formType == 'user') {echo 'selected="selected"';} ?>>User</option>
+                        <option value="administrator" <?php if ($formType == 'administrator') {echo 'selected="selected"';} ?>>Administrator</option></select><br>
                     <input type="button" 
-                           value="Register" 
+                           value="Update" 
                            onclick="return updateUserFormCheck(this.form,
                                            this.form.username,
                                            this.form.email,

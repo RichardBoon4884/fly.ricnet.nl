@@ -23,20 +23,30 @@ include_once 'psl-config.php';
 $error_msg = "";
 
 if (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '') {
-    $sql = "SELECT id, username FROM users";
+    $sql = "SELECT id, username, email, type, firstname, lastname FROM users WHERE username = '".$_POST['usernameSearch']."'";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-            echo "id: " . $row["id"]. " - Username: " . $row["username"]. "<br>";
+            if ($row["username"] == $_POST['usernameSearch']) {
+                $formId = $row["id"];
+                $formUsername = $row["username"];
+                $formEmail = $row["email"];
+                $formType = $row["type"];
+                $formFirstname = $row["firstname"];
+                $formLastname = $row["lastname"];
+            }
         }
     }
 }
 
 
 if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['role'])) {
-    // Sanitize and validate the data passed in
+    // Sanitize and val
+        header('Location: ./register_success.php');
+        exit();
+    }// Sanitize and validate the data passed in
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $email = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -75,24 +85,13 @@ if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['last
     // perform the operation.
 
     if (empty($error_msg)) {
-        // Create a random salt
-        $random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes(16), TRUE));
-
-        // Create salted password 
-        $password = hash('sha512', $password . $random_salt);
-
-        $defaultusertype = 'user';
-
-        // Insert the new user into the database 
-        if ($insert_stmt = $mysqli->prepare("INSERT INTO users (username, email, password, salt, type, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
-            $insert_stmt->bind_param('sssssss', $username, $email, $password, $random_salt, $type, $firstname, $lastname);
-            // Execute the prepared query.
-            if (! $insert_stmt->execute()) {
-                header('Location: ../error.php?err=Registration failure: INSERT');
-                exit();
-            }
+        // Update user in the database
+        
+        $sql = "UPDATE users SET lastname = '".$lastname."' WHERE id = '".$formId."'";
+        if ($conn->query($sql) === TRUE) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . $conn->error;
         }
-        header('Location: ./register_success.php');
-        exit();
-    }
+
 }
