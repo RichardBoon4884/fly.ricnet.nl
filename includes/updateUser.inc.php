@@ -33,7 +33,7 @@ if (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '') {
                 $formId = $row["id"];
                 $formUsername = $row["username"];
                 $formEmail = $row["email"];
-                $formType = $row["type"];
+                $formRole = $row["type"];
                 $formFirstname = $row["firstname"];
                 $formLastname = $row["lastname"];
             }
@@ -42,56 +42,48 @@ if (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '') {
 }
 
 
-if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['role'])) {
-    // Sanitize and val
-        header('Location: ./register_success.php');
-        exit();
-    }// Sanitize and validate the data passed in
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['role'], $_POST['userId'])) {
+    $inputUsername = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $inputEmail = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $inputEmail = filter_var($inputEmail, FILTER_VALIDATE_EMAIL);
+    if (!filter_var($inputEmail, FILTER_VALIDATE_EMAIL)) {
         // Not a valid email
         $error_msg .= '<p class="error">The email address you entered is not valid</p>';
     }
-    $firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
-    $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
-    $type = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
+    $inputFirstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
+    $inputLastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+    $inputRole = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
+    $inputId = filter_input(INPUT_POST, 'userId', FILTER_SANITIZE_NUMBER_INT);
 
-    // Username validity and password validity have been checked client side.
-    // This should should be adequate as nobody gains any advantage from
-    // breaking these rules.
-    //
-    
-    $prep_stmt = "SELECT id FROM users WHERE email = ? LIMIT 1";
-    $stmt = $mysqli->prepare($prep_stmt);
-    
-    if ($stmt) {
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        $stmt->store_result();
+    if (empty($error_msg)) { // Update user in the database
+        echo $inputLastname.'<br>'.$inputId.'<br>';
         
-        if ($stmt->num_rows == 1) {
-            // A user with this email address already exists
-            $error_msg .= '<p class="error">A user with this email address already exists.</p>';
-        }
-    } else {
-        $error_msg .= '<p class="error">Database error</p>';
-    }
-    
-    // TODO: 
-    // We'll also have to account for the situation where the user doesn't have
-    // rights to do registration, by checking what type of user is attempting to
-    // perform the operation.
+        $sql = "UPDATE users SET email = '".$inputEmail."', type = '".$inputRole."', firstname = '".$inputFirstname."', lastname = '".$inputLastname."' WHERE id = '".$inputId."'";
 
-    if (empty($error_msg)) {
-        // Update user in the database
-        
-        $sql = "UPDATE users SET lastname = '".$lastname."' WHERE id = '".$formId."'";
-        if ($conn->query($sql) === TRUE) {
-            echo "Record updated successfully";
+        if ($mysqli->query($sql) === TRUE) {
+            echo "User updated";
         } else {
-            echo "Error updating record: " . $conn->error;
+            echo "Error updating record: " . $mysqli->error;
         }
+    }
+}
 
+if (isset($_POST['p'])) {
+    $inputId = filter_input(INPUT_POST, 'userId', FILTER_SANITIZE_NUMBER_INT);
+    $password = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_STRING);
+
+    $random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes(16), TRUE));
+
+    // Create salted password 
+    $password = hash('sha512', $password . $random_salt);
+
+    if (empty($error_msg)) { // Update user in the database        
+        $sql = "UPDATE users SET password = '".$password."', salt = '".$random_salt."' WHERE id = '".$inputId."'";
+
+        if ($mysqli->query($sql) === TRUE) {
+            echo "User updated";
+        } else {
+            echo "Error updating record: " . $mysqli->error;
+        }
+    }
 }

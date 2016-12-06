@@ -63,16 +63,17 @@ sec_session_start();
                     </li>
                     <li>Your password and confirmation must match exactly</li>
                 </ul>
-                <form method="post" name="registration_form" action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>">
-                    Username: <input type='text' name='username' id='username' value="<?php echo $formUsername; ?>" disabled/><br>
+                <form method="post" name="registration_form" action="">
+                    Username: <input type='text' name='username' id='username' value="<?php echo $formUsername; ?>" />
+                    <input type='number' name='userId' id='userId' value="<?php echo $formId; ?>"  style="display: none;"/><br>
                     Email: <input type="text" name="email" id="email" value="<?php echo $formEmail; ?>"/><br>
                     First name: <input type='text' name='firstname' id='firstname' value="<?php echo $formFirstname; ?>"/><br>
                     Last name: <input type='text' name='lastname' id='lastname' value="<?php echo $formLastname; ?>"/><br>
                     Role:
                     <select name='role' id='role'>
-                        <option value="demo" <?php if ($formType == 'demo') {echo 'selected="selected"';} ?>>Demo</option>
-                        <option value="user" <?php if ($formType == 'user') {echo 'selected="selected"';} ?>>User</option>
-                        <option value="administrator" <?php if ($formType == 'administrator') {echo 'selected="selected"';} ?>>Administrator</option></select><br>
+                        <option value="demo" <?php if ($formRole == 'demo') {echo 'selected="selected"';} ?>>Demo</option>
+                        <option value="user" <?php if ($formRole == 'user') {echo 'selected="selected"';} ?>>User</option>
+                        <option value="administrator" <?php if ($formRole == 'administrator') {echo 'selected="selected"';} ?>>Administrator</option></select><br>
                     <input type="button" 
                            value="Update" 
                            onclick="return updateUserFormCheck(this.form,
@@ -80,15 +81,22 @@ sec_session_start();
                                            this.form.email,
                                            this.form.firstname,
                                            this.form.lastname,
-                                           this.form.role);" /> 
+                                           this.form.role,
+                                           this.form.userId);" />
                 </form>
-                <form>
+                <form method="post">
                     Password: <input type="password"
                                      name="password" 
                                      id="password"/><br>
                     Confirm password: <input type="password" 
                                              name="confirmpwd" 
                                              id="confirmpwd" /><br>
+                    <input type='number' name='userId' id='userId' value="<?php echo $formId; ?>"  style="display: none;"/>
+                    <input type="button" 
+                           value="Update" 
+                           onclick="return updateUserFormPasswd(this.form,
+                                           this.form.password,
+                                           this.form.confirmpwd);" />
                 </form>
                 <?php endif; ?>
             </main>
