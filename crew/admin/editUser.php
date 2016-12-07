@@ -41,14 +41,14 @@ sec_session_start();
                 }
                 ?>
                 <?php
-                    if (isset($_POST['usernameSearch']) == false or $_POST['usernameSearch'] == ''):
+                    if (isset($formUsername) == false):
                 ?>
                 <form method="post">
                     Username: <input type="username" name="usernameSearch">
                     <input type="submit" name="send" value="Go">
                 </form>
                 <?php
-                    elseif (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '' and $_POST['usernameSearch'] == $formUsername):
+                    elseif (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '' and $_POST['usernameSearch'] == $formUsername or isset($userUrl) and $userUrl != "" and $userUrl == $formUsername):
                 ?>           
                 <ul>
                     <li>Usernames may contain only digits, upper and lower case letters and underscores</li>
@@ -74,9 +74,9 @@ sec_session_start();
                         <option value="demo" <?php if ($formRole == 'demo') {echo 'selected="selected"';} ?>>Demo</option>
                         <option value="user" <?php if ($formRole == 'user') {echo 'selected="selected"';} ?>>User</option>
                         <option value="administrator" <?php if ($formRole == 'administrator') {echo 'selected="selected"';} ?>>Administrator</option></select><br>
-                    <input type="checkbox" name="activeUser" value="activeUser"> Active user<br>
-                    <input type="checkbox" name="activePilot" value="activePilot"> Active pilot<br>
-                    <input type="checkbox" name="activePrepare" value="activePrepare"> Active dispatcher<br>
+                    <input type="checkbox" name="activeUser" value="activeUser" <?php if ($activeUser == 1) {echo "checked";} ?>> Active user<br>
+                    <input type="checkbox" name="activePilot" value="activePilot" <?php if ($activePilot == 1) {echo "checked";} ?>> Active pilot<br>
+                    <input type="checkbox" name="activeDispatcher" value="activeDispatcher" <?php if ($activeDispatcher == 1) {echo "checked";} ?>> Active dispatcher<br>
                     <input type="button" 
                            value="Update" 
                            onclick="return updateUserFormCheck(this.form,

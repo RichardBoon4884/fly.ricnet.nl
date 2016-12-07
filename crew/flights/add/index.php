@@ -4,7 +4,7 @@ include_once '../../../includes/functions.php';
 
 sec_session_start();
 
-$sql = "SELECT id, firstname, lastname FROM users WHERE `active-pilot` = 1";
+$sql = "SELECT id, firstname, lastname FROM users WHERE `active_pilot` = 1";
 $result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {
@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
 }
 $allUsersEmpty = "<option selected value></option>" . $allUsers;
 
-$sql = "SELECT id, firstname, lastname FROM users WHERE `active-prepare` = 1";
+$sql = "SELECT id, firstname, lastname FROM users WHERE `active_dispatcher` = 1";
 $result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {

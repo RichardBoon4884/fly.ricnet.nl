@@ -22,20 +22,34 @@ include_once 'psl-config.php';
 
 $error_msg = "";
 
-if (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '') {
-    $sql = "SELECT id, username, email, type, firstname, lastname FROM users WHERE username = '".$_POST['usernameSearch']."'";
+$userUrl = filter_input(INPUT_GET, 'userReg', $filter = FILTER_SANITIZE_STRING);
+
+if (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '' or isset($userUrl) and $userUrl != "") {
+    if (isset($_POST['usernameSearch']) and $_POST['usernameSearch'] != '') {
+        $searchUsername = $_POST['usernameSearch'];
+    } elseif (isset($userUrl) and $userUrl != "") {
+        $searchUsername = $userUrl;
+    } else {
+        echo "Error: Username error";
+        exit();
+    }
+    
+    $sql = "SELECT id, username, email, type, firstname, lastname, active_user, active_pilot, active_dispatcher FROM users WHERE username = '".$searchUsername."'";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-            if ($row["username"] == $_POST['usernameSearch']) {
+            if ($row["username"] == $searchUsername) {
                 $formId = $row["id"];
                 $formUsername = $row["username"];
                 $formEmail = $row["email"];
                 $formRole = $row["type"];
                 $formFirstname = $row["firstname"];
                 $formLastname = $row["lastname"];
+                $activeUser = $row["active_user"];
+                $activePilot = $row["active_pilot"];
+                $activeDispatcher = $row["active_dispatcher"];
             }
         }
     }
@@ -54,11 +68,25 @@ if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['last
     $inputLastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
     $inputRole = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
     $inputId = filter_input(INPUT_POST, 'userId', FILTER_SANITIZE_NUMBER_INT);
+    if (isset($_POST["activeUser"]) and $_POST["activeUser"] == "activeUser") {
+        $inputActiveUser = 1;
+    } else {
+        $inputActiveUser = 0;
+    }
+    if (isset($_POST["activePilot"]) and $_POST["activePilot"] == "activePilot") {
+        $inputActivePilot = 1;
+    } else {
+        $inputActivePilot = 0;
+    }
+    if (isset($_POST["activeDispatcher"]) and $_POST["activeDispatcher"] == "activeDispatcher") {
+        $inputActiveDispatcher = 1;
+    } else {
+        $inputActiveDispatcher = 0;
+    }
 
     if (empty($error_msg)) { // Update user in the database
-        echo $inputLastname.'<br>'.$inputId.'<br>';
         
-        $sql = "UPDATE users SET email = '".$inputEmail."', type = '".$inputRole."', firstname = '".$inputFirstname."', lastname = '".$inputLastname."' WHERE id = '".$inputId."'";
+        $sql = "UPDATE users SET email = '".$inputEmail."', type = '".$inputRole."', firstname = '".$inputFirstname."', lastname = '".$inputLastname."', active_user = '".$inputActiveUser."', active_pilot = '".$inputActivePilot."', active_dispatcher = '".$inputActiveDispatcher."' WHERE id = '".$inputId."'";
 
         if ($mysqli->query($sql) === TRUE) {
             echo "User updated";
