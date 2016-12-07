@@ -74,6 +74,9 @@ sec_session_start();
                         <option value="demo" <?php if ($formRole == 'demo') {echo 'selected="selected"';} ?>>Demo</option>
                         <option value="user" <?php if ($formRole == 'user') {echo 'selected="selected"';} ?>>User</option>
                         <option value="administrator" <?php if ($formRole == 'administrator') {echo 'selected="selected"';} ?>>Administrator</option></select><br>
+                    <input type="checkbox" name="activeUser" value="activeUser"> Active user<br>
+                    <input type="checkbox" name="activePilot" value="activePilot"> Active pilot<br>
+                    <input type="checkbox" name="activePrepare" value="activePrepare"> Active dispatcher<br>
                     <input type="button" 
                            value="Update" 
                            onclick="return updateUserFormCheck(this.form,

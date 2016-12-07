@@ -113,7 +113,7 @@ if (isset($_POST["airliner"], $_POST["flightnumber"], $_POST["from"], $_POST["to
 				<div>From airport:<br><select class="chosen-select" name="from"><?php echo $allAirports; ?></select></div><div>To airport:<br><select class="chosen-select" name="to"><?php echo $allAirports; ?></select></div><br>
 				Aircraft: <input type="text" name="aircraft"><br>
 				<div>PIC:<br><select class="chosen-select" name="pic"><?php echo $allUsers; ?></select></div><div>First officer:<br><select class="chosen-select" name="firstOfficer"><?php echo $allUsersEmpty; ?></select></div><div>Second officer:<br><select class="chosen-select" name="secondOfficer"><?php echo $allUsersEmpty; ?></select></div><br>
-				Prepared by: <select class="chosen-select" name="preparedBy"><?php echo $allUsersActive; ?></select><br>
+				Prepared by: <select class="chosen-select" name="preparedBy"><?php echo $allUsersActivePrepare; ?></select><br>
 				ATC route: <textarea name="atcRoute"></textarea><br>
 				Release fuel: <input type="number" name="fuel"><br>
 				<input type="submit" value="File flight">

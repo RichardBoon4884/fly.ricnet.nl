@@ -70,6 +70,9 @@ sec_session_start();
                         <option value="user">User</option>
                         <option value="administrator">Administrator</option>
                     </select><br>
+                    <input type="checkbox" name="activeUser" value="activeUser"> Active user<br>
+                    <input type="checkbox" name="activePilot" value="activePilot"> Active pilot<br>
+                    <input type="checkbox" name="activePrepare" value="activePrepare"> Active dispatcher<br>
                     <input type="button" 
                            value="Register" 
                            onclick="return regformhash(this.form,
