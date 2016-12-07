@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-include_once '../includes/db_connect.php';
-include_once '../includes/functions.php';
+include_once '../../includes/db_connect.php';
+include_once '../../includes/functions.php';
 
 sec_session_start();
 ?>
@@ -29,11 +29,11 @@ sec_session_start();
 	</head>
 	<body>
 		<?php if (login_check($mysqli) == true) : ?>
-        <?php include '/includes_pages/header.php'; ?>
-        <?php include '/includes_pages/sideMenu.php'; ?>
-        <main>
-            <p>Welcome <?php echo htmlentities($_SESSION['firstname']); ?>, you're are a <?php echo htmlentities($_SESSION['type']); ?>!</p>
-        </main>
+		<?php include '../includes_pages/header.php'; ?>
+		<?php include '../includes_pages/sideMenu.php'; ?>
+		<main>
+			
+		</main>
 		<?php else : ?>
 			<p>
 				<span class="error">You are not authorized to access this page.</span> Please <a href="/">login</a>.
