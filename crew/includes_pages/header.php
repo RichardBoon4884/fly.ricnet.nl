@@ -1,4 +1,4 @@
-		<header>
+<header>
 			<h1>Ricnet Fly</h1>
 			<nav>
 				<ul>
