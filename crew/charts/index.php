@@ -20,29 +20,45 @@ include_once '../../includes/functions.php';
 
 sec_session_start();
 
+$sql = "SELECT icao FROM charts";
+$result = $mysqli->query($sql);
+
+if ($result->num_rows > 0) {
+	while($row = $result->fetch_assoc()) {
+		if (isset($rowChartsAirports)) {
+			array_push($rowChartsAirports, $row["icao"]);
+		} else {
+			$rowChartsAirports = array($row["icao"]);
+		}
+		
+	}
+}
+
 $sql = "SELECT id, icao, name FROM airports WHERE scheduled_service LIKE '%yes%'";
 $result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {
 	while($row = $result->fetch_assoc()) {
-		if (isset($allAirports)) {
-			$allAirports .= "<option value=\"" . $row["id"] . "\">" . $row["icao"] . " - " . $row["name"] . "</option>";
-		} else {
-			$allAirports = "<option value=\"" . $row["id"] . "\">" . $row["icao"] . " - " . $row["name"] . "</option>";
+		if (in_array($row["id"], $rowChartsAirports)) {
+			if (isset($allAirports)) {
+				$allAirports .= "<option value=\"" . $row["id"] . "\">" . $row["icao"] . " - " . $row["name"] . "</option>";
+			} else {
+				$allAirports = "<option value=\"" . $row["id"] . "\">" . $row["icao"] . " - " . $row["name"] . "</option>";
+			}
 		}
 	}
 }
 
 if (isset($_POST["airport"])) {
-	$sql = "SELECT name, icao, file_location FROM charts WHERE icao LIKE '".$_POST["airport"]."'";
+	$sql = "SELECT id, name, icao, file_location, description FROM charts WHERE icao LIKE '".$_POST["airport"]."'";
 	$result = $mysqli->query($sql);
 
 	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()) {
 			if (isset($airportsList) and $row["icao"] == $_POST["airport"]) {
-				$airportsList .= "<a href=\"" . $row["file_location"] . "\" target=\"chartScreen\"><li>Chart: " . $row["name"] . "</li></a>";
+				$airportsList .= "<a href=\"" . $row["file_location"] . "\" target=\"chartScreen\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["name"] . "</div><div  class=\"chartDescription\">" . $row["description"] . "</div></li></a>";
 			} else {
-				$airportsList = "<a href=\"" . $row["file_location"] . "\" target=\"chartScreen\"><li>Chart: " . $row["name"] . "</li></a>";
+				$airportsList = "<a href=\"" . $row["file_location"] . "\" target=\"chartScreen\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["name"] . "</div><div  class=\"chartDescription\">" . $row["description"] . "</div></li></a>";
 			}
 		}
 	}
@@ -67,6 +83,9 @@ if (isset($_POST["airport"])) {
 				width: calc(100% - 575px);
 				border: 0;
 			}
+			.chartDescription {
+				font-style: italic;
+			}
 		</style>
 	</head>
 	<body>
@@ -77,10 +96,10 @@ if (isset($_POST["airport"])) {
 			<form method="post"><select class="chosen-select" name="airport"><?php echo $allAirports; ?></select><input type="submit" value="Search"></form>
 			<?php 
 				if (isset($airportsList)) {
-					echo "<ul>" . $airportsList . "</ul>";
+					echo "<nav class=\"list charts\"><ul>" . $airportsList . "</ul></nav>";
+					echo "<iframe src=\"\" name=\"chartScreen\"></iframe>";
 				}
 			?>
-			<iframe src="" name="chartScreen"></iframe>
 		</main>
 		<script type="text/javascript">$(".chosen-select").chosen()</script>
 		<?php else : ?>
