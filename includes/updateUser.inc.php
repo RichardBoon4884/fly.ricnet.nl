@@ -91,7 +91,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['last
         if ($mysqli->query($sql) === TRUE) {
             echo "User updated";
         } else {
-            echo "Error updating record: " . $mysqli->error;
+            error("critical", "Error updating record: " . $mysqli->error);
         }
     }
 }
@@ -111,7 +111,7 @@ if (isset($_POST['p'])) {
         if ($mysqli->query($sql) === TRUE) {
             echo "User updated";
         } else {
-            echo "Error updating record: " . $mysqli->error;
+            error("critical", "Error updating record: " . $mysqli->error);
         }
     }
 }

@@ -82,8 +82,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'], $_POST['firstname'],
             $insert_stmt->bind_param('sssssss', $username, $email, $password, $random_salt, $type, $firstname, $lastname);
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {
-                header('Location: ../error.php?err=Registration failure: INSERT');
-                exit();
+                error("critical", "Error updating record: " . $mysqli->error);
             }
         }
         header('Location: ./editUser.php?userReg=' . $username);
