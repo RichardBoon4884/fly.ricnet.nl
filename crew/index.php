@@ -19,6 +19,21 @@ include_once '../includes/db_connect.php';
 include_once '../includes/functions.php';
 
 sec_session_start();
+
+$sql = "SELECT flights.id, airlines.icao, flights.flightnumber, flights.from, flights.to, flights.aircraft, users.username, flights.firstofficer, flights.secondofficer, users.username, flights.atcroute, flights.releasefuel FROM flights INNER JOIN airlines ON flights.airline = airlines.id INNER JOIN users ON flights.pic = users.id";
+$result = $mysqli->query($sql);
+
+if ($result->num_rows > 0) {
+	while($row = $result->fetch_assoc()) {
+
+
+		if (isset($flights)) {
+			$flights .= "<a href=\"#\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["icao"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\"></div></li></a>";
+		} else {
+			$flights = "<a href=\"#\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["icao"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\"></div></li></a>";
+		}
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +47,11 @@ sec_session_start();
         <?php include '/includes_pages/header.php'; ?>
         <?php include '/includes_pages/sideMenu.php'; ?>
         <main>
-            <p>Welcome <?php echo htmlentities($_SESSION['firstname']); ?>, you're are a <?php echo htmlentities($_SESSION['type']); ?>!</p>
+			<?php 
+				if (isset($flights)) {
+					echo "<nav class=\"list charts\"><ul>" . $flights . "</ul></nav>";
+				}
+			?>
         </main>
 		<?php else : ?>
 			<p>

@@ -85,12 +85,13 @@ if (isset($_POST["airliner"], $_POST["flightnumber"], $_POST["from"], $_POST["to
 	$firstOfficerId = filter_input(INPUT_POST, 'firstOfficer', FILTER_SANITIZE_NUMBER_INT);
 	$secondOfficerId = filter_input(INPUT_POST, 'secondOfficer', FILTER_SANITIZE_NUMBER_INT);
 	$preparedById = filter_input(INPUT_POST, 'preparedBy', FILTER_SANITIZE_NUMBER_INT);
-	$atcRoute = filter_input(INPUT_POST, 'atcRoute', FILTER_SANITIZE_NUMBER_INT);
+	$atcRoute = htmlspecialchars($_POST["atcRoute"]);
+	// $atcRoute = filter_input(INPUT_POST, 'atcRoute', FILTER_SANITIZE_STRING);
 	$fuel = filter_input(INPUT_POST, 'fuel', FILTER_SANITIZE_NUMBER_INT);
 
-	$sql = "INSERT INTO flights (airline, flightnumber, from, to, aircraft, pic, firstofficer, secondofficer, preparedby, preparedat, atcroute, releasefuel) VALUES ('". $airlinerId ."', '". $flightNumber .", '". $fromAirportId ."', '". $toAirportId ."', '". $aircraft ."', '". $picId ."', '". $firstOfficerId ."', '". $secondOfficerId ."', '". $preparedById ."', '', '". $atcRoute ."', '". $fuel ."')";
+	$sql = "INSERT INTO flights (`airline`, `flightnumber`, `from`, `to`, `aircraft`, `pic`, `firstofficer`, `secondofficer`, `preparedby`, `preparedat`, `atcroute`, `releasefuel`) VALUES ('". $airlinerId ."', '". $flightNumber ."', '". $fromAirportId ."', '". $toAirportId ."', '". $aircraft ."', '". $picId ."', '". $firstOfficerId ."', '". $secondOfficerId ."', '". $preparedById ."',  NOW(), '". $atcRoute ."', '". $fuel ."')";
 	if ($mysqli->query($sql) === TRUE) {
-		echo "New record created successfully";
+		// echo "New record created successfully";
 	} else {
 		echo "Error: " . $sql . "<br>" . $mysqli->error;
 	}

@@ -4,7 +4,7 @@
 				<ul>
                     <?php if ($_SESSION['type'] == 'administrator') {echo '<li><a id="admin" href="/crew/admin">Admin area</a></li>';} ?>
                     <li><a id="logout" href="/includes/logout.php">log out</a></li>
-                    <li><span><?php echo htmlentities($_SESSION['firstname']); ?></span></li>
+                    <li><span><?php echo htmlentities($_SESSION['firstname']); ?> (<?php echo htmlentities($_SESSION['type']); ?>)</span></li>
                 </ul>
 			</nav>
 		</header>
