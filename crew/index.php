@@ -20,7 +20,7 @@ include_once '../includes/functions.php';
 
 sec_session_start();
 
-$sql = "SELECT flights.id, airlines.icao, flights.flightnumber, flights.from, flights.to, flights.aircraft, users.username, flights.firstofficer, flights.secondofficer, users.username, flights.atcroute, flights.releasefuel FROM flights INNER JOIN airlines ON flights.airline = airlines.id INNER JOIN users ON flights.pic = users.id";
+$sql = "SELECT flights.id, airlines.icao AS airline, flights.flightnumber, airports.icao AS fromAirport, flights.toAirport, flights.aircraft, flights.pic, flights.firstofficer, flights.secondofficer, flights.preparedby, flights.atcroute, flights.releasefuel FROM flights INNER JOIN airlines ON flights.airline = airlines.id INNER JOIN airports ON flights.fromAirport = airports.id ";
 $result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {
@@ -28,9 +28,9 @@ if ($result->num_rows > 0) {
 
 
 		if (isset($flights)) {
-			$flights .= "<a href=\"#\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["icao"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\"></div></li></a>";
+			$flights .= "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirport"] . " > ??</div></li></a>";
 		} else {
-			$flights = "<a href=\"#\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["icao"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\"></div></li></a>";
+			$flights = "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirport"] . " > ??</div></li></a>";
 		}
 	}
 }
