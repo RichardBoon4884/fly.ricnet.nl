@@ -40,7 +40,7 @@ if ($result->num_rows > 0) {
 		if (isset($flights)) {
 			$flights .= "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirport"] . " > " . $row["toAirport"] . "</div>" . $preparedby . "</li></a>";
 		} else {
-			$flights = "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirport"] . " > " . $row["toAirport"] . "</div></li></a>";
+			$flights = "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirport"] . " > " . $row["toAirport"] . "</div>" . $preparedby . "</li></a>";
 		}
 	}
 }
