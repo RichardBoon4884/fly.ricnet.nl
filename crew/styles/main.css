@@ -84,3 +84,12 @@ nav.list>ul>a>li {
 	background-color: #fff;
 	transition: box-shadow .25s;
 }
+
+main>aside {
+	position: absolute;
+	right:0;
+	top:35px;
+	height: calc(100% - 35px);
+	width: calc(100% - 575px);
+	border: 0;
+}

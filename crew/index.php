@@ -20,7 +20,7 @@ include_once '../includes/functions.php';
 
 sec_session_start();
 
-$sql = "SELECT flights.id, airlines.icao AS airline, flights.flightnumber, airports1.icao AS fromAirport, airports2.icao AS toAirport, flights.aircraft, flights.pic, usersPic.username as picUsername, flights.firstofficer, usersFirstofficer.username as firstofficerUsername, flights.secondofficer, usersSecondofficer.username as secondofficerUsername, flights.preparedby, usersPreparedby.username as preparedbyUsername, flights.atcroute, flights.releasefuel FROM flights
+$sql = "SELECT flights.id, airlines.icao AS airline, flights.flightnumber, flights.fromAirport, airports1.icao AS fromAirportIcao, flights.toAirport, airports2.icao AS toAirportIcao, flights.aircraft, flights.pic, usersPic.username as picUsername, flights.firstofficer, usersFirstofficer.username as firstofficerUsername, flights.secondofficer, usersSecondofficer.username as secondofficerUsername, flights.preparedby, usersPreparedby.username as preparedbyUsername, flights.atcroute, flights.releasefuel FROM flights
 INNER JOIN airlines ON flights.airline = airlines.id
 INNER JOIN airports airports1 ON flights.fromAirport = airports1.id
 INNER JOIN airports airports2 ON flights.toAirport = airports2.id
@@ -38,9 +38,50 @@ if ($result->num_rows > 0) {
 			$preparedby = "";
 		}
 		if (isset($flights)) {
-			$flights .= "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirport"] . " > " . $row["toAirport"] . "</div>" . $preparedby . "</li></a>";
+			$flights .= "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirportIcao"] . " > " . $row["toAirportIcao"] . "</div>" . $preparedby . "</li></a>";
 		} else {
-			$flights = "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirport"] . " > " . $row["toAirport"] . "</div>" . $preparedby . "</li></a>";
+			$flights = "<a href=\"?flight=" . $row["id"] . "\"><li class=\"box\" id=\"" . $row["id"] . "\"><div class=\"chartName\">" . $row["airline"] . " " . $row["flightnumber"] . "</div><div  class=\"chartDescription\">" . $row["fromAirportIcao"] . " > " . $row["toAirportIcao"] . "</div>" . $preparedby . "</li></a>";
+		}
+	}
+}
+
+$requestedFlight = filter_input(INPUT_GET, 'flight', $filter = FILTER_SANITIZE_STRING);
+
+if (is_numeric($requestedFlight)) {
+	$sql = "SELECT flights.id, airlines.icao AS airline, flights.flightnumber, flights.fromAirport, airports1.icao AS fromAirportIcao, flights.toAirport, airports2.icao AS toAirportIcao, flights.aircraft, flights.pic, usersPic.username as picUsername, flights.firstofficer, usersFirstofficer.username as firstofficerUsername, flights.secondofficer, usersSecondofficer.username as secondofficerUsername, flights.preparedby, usersPreparedby.username as preparedbyUsername, flights.atcroute, flights.releasefuel FROM flights
+	INNER JOIN airlines ON flights.airline = airlines.id
+	INNER JOIN airports airports1 ON flights.fromAirport = airports1.id
+	INNER JOIN airports airports2 ON flights.toAirport = airports2.id
+	INNER JOIN users usersPic ON flights.pic = usersPic.id
+	LEFT JOIN users usersFirstofficer ON flights.firstofficer = usersFirstofficer.id
+	LEFT JOIN users usersSecondofficer ON flights.secondofficer = usersSecondofficer.id
+	LEFT JOIN users usersPreparedby ON flights.preparedby = usersPreparedby.id
+	WHERE flights.id = '".$requestedFlight."'";
+
+	$result = $mysqli->query($sql);
+
+	if ($result->num_rows > 0) {
+		while($row = $result->fetch_assoc()) {
+			if ($row["id"] == $requestedFlight) {
+				$flightId = $row["id"];
+				$flightAirline = $row["airline"];
+				$flightNumber = $row["flightnumber"];
+				$flightFromAirport = $row["fromAirport"];
+				$flightFromAirportIcao = $row["fromAirportIcao"];
+				$flightToAirport = $row["toAirport"];
+				$flightToAirportIcao = $row["toAirportIcao"];
+				$flightAircraft = $row["aircraft"];
+				$flightPic = $row["pic"];
+				$flightPicUsername = $row["picUsername"];
+				$flightFirstOfficer = $row["firstofficer"];
+				$flightFirstOfficerUsername = $row["firstofficerUsername"];
+				$flightSecondOfficer = $row["secondofficer"];
+				$flightSecondOfficerUsername = $row["secondofficerUsername"];
+				$flightPreparedby = $row["preparedby"];
+				$flightPreparedbyUsername = $row["preparedbyUsername"];
+				$flightAtcRoute = $row["atcroute"];
+				$flightReleaseFuel = $row["releasefuel"];
+			}
 		}
 	}
 }
@@ -62,6 +103,12 @@ if ($result->num_rows > 0) {
 					echo "<nav class=\"list charts\"><ul>" . $flights . "</ul></nav>";
 				}
 			?>
+			<?php if (is_numeric($requestedFlight)) :?>
+			<aside>
+				<h2><?php echo $flightAirline . " " . $flightNumber; ?></h2>
+				<div><?php echo $flightFromAirportIcao . " > " . $flightToAirportIcao; ?></div>
+			</aside>
+			<?php endif; ?>
         </main>
 		<?php else : ?>
 			<p>
