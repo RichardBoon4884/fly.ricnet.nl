@@ -4,7 +4,8 @@ function route()
 	$url = splitUrl();
 	if (!$url['controller']) {
 		require(ROOT . 'controller/HomeController.php');
-		index();
+		$controller = new FlightController();
+		call_user_func(array($controller, "index"));
 	} elseif (file_exists(ROOT . 'controller/' . $url['controller'] . '.php')) {
 		require(ROOT . 'controller/' . $url['controller'] . '.php');
 		$controller = new $url['controller']();
@@ -16,11 +17,13 @@ function route()
 			}
 		} else {
 			require(ROOT . 'controller/ErrorController.php');
-			error404();
+			$controller = new ErrorController();
+			call_user_func(array($controller, "error404"));
 		}
 	} else {
 		require(ROOT . 'controller/ErrorController.php');
-		error404();
+		$controller = new ErrorController();
+		call_user_func(array($controller, "error404"));
 	}
 }
 function splitUrl()

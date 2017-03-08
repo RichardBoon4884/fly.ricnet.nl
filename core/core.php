@@ -1,5 +1,7 @@
 <?php
 
+require 'auth.php';
+
 function openDb() {
 	$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_DATABASE, DB_USER, DB_PASSWORD);
 
@@ -17,7 +19,8 @@ function render($filename, $data = null)
 			$$key = $value;
 		}
 	}
-	require(ROOT . 'view/templates/header.php');
+	require(ROOT . 'view/_template/header.php');
 	require(ROOT . 'view/' . $filename . '.php');
-	require(ROOT . 'view/templates/footer.php');
+	require(ROOT . 'view/_template/footer.php');
+	http_response_code(200);
 }
