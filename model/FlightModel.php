@@ -1,7 +1,5 @@
 <?php
 
-include ROOT . 'config/database_connection.php';
-
 class FlightModel {
 	public function getAllFlights() {
 		$db = openDb();

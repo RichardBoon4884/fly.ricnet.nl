@@ -25,6 +25,10 @@ if (login_check($mysqli) == true) {
 } else {
     $logged = 'out';
 }
+
+$backgrounds = array("/styles/img/index.png", "/styles/img/index1.png", "/styles/img/index2.png", "/styles/img/index3.png", "/styles/img/index4.png");
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,7 +43,7 @@ if (login_check($mysqli) == true) {
         <script type="text/JavaScript" src="js/materialize.js"></script> 
         <style type="text/css">
         body {
-            background-image: url("/styles/img/index.png");
+            background-image: url("<?php echo $backgrounds[rand(0, sizeof($backgrounds)-1)]; ?>");
             background-repeat: no-repeat;
             background-size: 100%;
             margin: 0;
