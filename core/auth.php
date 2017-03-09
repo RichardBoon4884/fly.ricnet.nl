@@ -2,6 +2,8 @@
 
 function checkIfLoggedIn()
 {
+	session_start();
+
 	if (isset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['loginString'], $_SESSION['type'])) {
 
 		$db = openDb();
@@ -19,16 +21,30 @@ function checkIfLoggedIn()
 		} else {
 			return false;
 		}
+	} else {
+		return false;
 	}
 }
 
 function loginRequired()
 {
-	return checkIfLoggedIn();
+	if (checkIfLoggedIn()) {
+		return true;
+	} else {
+		// require(ROOT . 'controller/HomeController.php');
+		// $controller = new HomeController();
+		// call_user_func(array($controller, "index"));
+
+		header("Location: /");
+
+		die();
+	}
 }
 
 function login($email, $password)
 {
+	session_start();
+
 	$db = openDb();
 	$sth = $db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
 	$sth->bindParam(':email', $email, PDO::PARAM_STR, 50);
@@ -37,7 +53,9 @@ function login($email, $password)
 	$result = $sth->fetchAll();
 	$db = closeDb();
 
-	if ($stmt->num_rows == 1) {
+	if (count($result) == 1) {
+		$result = $result[0];
+
 		$db_password = $result['password'];
 		$password = hash('sha512', $result['password'] . $result['salt']);
 		if ($db_password == $password) {
@@ -46,13 +64,19 @@ function login($email, $password)
 					$_SESSION[$key] = $value;
 				}
 			}
+
+			$_SESSION['login_string'] = hash('sha512', $password . $_SERVER['HTTP_USER_AGENT']);
+			return true;
 		} elseif ($db_password != $password) {
 			// Wrong password
+			return array(false, "wrongPassword");
 		} else {
 			// Error
+			return array(false, "error");
 		}
 	} else {
 		// User not existing!
+		return array(false, "noUser");
 	}
 
 

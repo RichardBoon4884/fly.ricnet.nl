@@ -6,8 +6,4 @@ require ROOT . 'config/database_connection.php';
 require ROOT . 'core/core.php';
 require ROOT . 'core/route.php';
 
-// $controller = new FlightsController();
-
-// $controller->handleRequest();
-
 route();

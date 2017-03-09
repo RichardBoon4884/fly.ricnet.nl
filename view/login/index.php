@@ -1,15 +1,17 @@
-<?php $backgrounds = array("/styles/img/index.png", "/styles/img/index1.png", "/styles/img/index2.png", "/styles/img/index3.png", "/styles/img/index4.png"); ?>
+<?php $backgrounds = array("/styles/img/index.png", "/styles/img/index1.png", "/styles/img/index2.png", "/styles/img/index3.png", "/styles/img/index4.png"); 
+
+echo(checkIfLoggedIn());?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Ricnet Fly</title>
         <link rel="stylesheet" href="styles/main.css" />
-        <script type="text/JavaScript" src="js/sha512.js"></script> 
-        <script type="text/JavaScript" src="js/forms.js"></script> 
+        <script type="text/JavaScript" src="/js/sha512.js"></script> 
+        <script type="text/JavaScript" src="/js/forms.js"></script> 
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="styles/materialize.css"  media="screen,projection"/>
-        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-        <script type="text/JavaScript" src="js/materialize.js"></script> 
+        <link type="text/css" rel="stylesheet" href="/styles/materialize.css"  media="screen,projection"/>
+        <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+        <script type="text/JavaScript" src="/js/materialize.js"></script> 
         <style type="text/css">
         body {
             background-image: url("<?php echo $backgrounds[rand(0, sizeof($backgrounds)-1)];?>");
@@ -57,7 +59,7 @@
             <h1><img src="/img/logo_ricnetfly.png" alt="ricnet air"></h1>
             <div class="frame">
                 <h2>Crew area login</h2>
-                <form action="includes/process_login.php" method="post" name="login_form">
+                <form action="" method="post" name="login_form">
                  <div class="row">			
                         <div class="input-field col s6">
                             <input id="email" type="text" name="email" />
