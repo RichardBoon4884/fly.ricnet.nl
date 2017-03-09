@@ -17,4 +17,62 @@ class FlightModel {
 		$db = closeDb();
 		return $result;
 	}
+
+	public function addFlight($airlinerId, $flightNumber, $fromAirportId, $toAirportId, $aircraft, $picId, $firstOfficerId, $secondOfficerId, $preparedById, $atcRoute, $fuel) {
+		try {
+			$db = openDb();
+			$sth = $db->prepare("INSERT INTO flights (
+				`airline`,
+				`flightnumber`,
+				`fromAirport`,
+				`toAirport`,
+				`aircraft`,
+				`pic`,
+				`firstofficer`,
+				`secondofficer`,
+				`preparedby`,
+				`preparedat`,
+				`atcroute`,
+				`releasefuel`)
+				VALUES (
+				:airlinerId,
+				:flightNumber,
+				:fromAirportId,
+				:toAirportId,
+				:aircraft,
+				:picId,
+				:firstOfficerId,
+				:secondOfficerId,
+				:preparedById,
+				NOW(),
+				:atcRoute,
+				:fuel)");
+			$sth->bindParam(':airlinerId', $airlinerId);
+			$sth->bindParam(':flightNumber', $flightNumber);
+			$sth->bindParam(':fromAirportId', $fromAirportId);
+			$sth->bindParam(':toAirportId', $toAirportId);
+			$sth->bindParam(':aircraft', $aircraft);
+			$sth->bindParam(':picId', $picId);
+			$sth->bindParam(':firstOfficerId', $firstOfficerId);
+			$sth->bindParam(':secondOfficerId', $secondOfficerId);
+			$sth->bindParam(':preparedById', $preparedById);
+			$sth->bindParam(':atcRoute', $atcRoute);
+			$sth->bindParam(':fuel', $fuel);
+
+			$sth->execute();
+		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();
+			die();
+		}
+
+		$lastId = $db->lastInsertId();
+
+		$result = $sth->fetchAll();
+
+		$db = closeDb();
+
+		return $lastId;
+	}
 }
