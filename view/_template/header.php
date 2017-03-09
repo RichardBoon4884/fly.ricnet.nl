@@ -16,9 +16,9 @@
 			<h1>Ricnet Fly</h1>
 			<nav>
 				<ul>
-					<!-- <?php if ($_SESSION['type'] == 'administrator') {echo '<li><a id="admin" href="/crew/admin">Admin area</a></li>';} ?>
-					<li><a id="logout" href="/logout.php">log out</a></li>
-					<li><span><?php echo htmlentities($_SESSION['firstname']); ?> (<?php echo htmlentities($_SESSION['type']); ?>)</span></li> -->
+					<?php if ($_SESSION['type'] == 'administrator') {echo '<li><a id="admin" href="#">Admin area</a></li>';} ?>
+					<li><a id="logout" href="/home/logout">log out</a></li>
+					<li><span><?php echo $_SESSION['firstname'] . " " . $_SESSION['lastname']; ?> (<?php echo $_SESSION['type']; ?>)</span></li>
 				</ul>
 			</nav>
 		</header>
