@@ -6,6 +6,8 @@ require ROOT . 'model/UserModel.php';
 
 class FlightController {
 	public function index() {
+		loginRequired();
+		
 		$htmlentities["title"] = "Crew area";
 
 		$flightModel = new FlightModel();
@@ -18,6 +20,8 @@ class FlightController {
 	}
 
 	public function add() {
+		loginRequired();
+
 		$htmlentities["title"] = "Crew area";
 
 		$airlinerModel = new AirlinerModel();

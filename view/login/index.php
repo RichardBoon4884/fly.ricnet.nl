@@ -1,6 +1,4 @@
-<?php $backgrounds = array("/styles/img/index.png", "/styles/img/index1.png", "/styles/img/index2.png", "/styles/img/index3.png", "/styles/img/index4.png"); 
-
-echo(checkIfLoggedIn());?>
+<?php $backgrounds = array("/styles/img/index.png", "/styles/img/index1.png", "/styles/img/index2.png", "/styles/img/index3.png", "/styles/img/index4.png"); ?>
 <!DOCTYPE html>
 <html>
     <head>

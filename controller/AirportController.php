@@ -8,6 +8,8 @@ class AirportController {
 	}
 	public function chart()
 	{
+		loginRequired();
+		
 		$htmlentities["title"] = "Crew area";
 
 		$airportModel = new AirportModel();

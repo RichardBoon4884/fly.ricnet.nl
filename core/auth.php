@@ -1,22 +1,23 @@
 <?php
-
 function checkIfLoggedIn()
 {
 	session_start();
 
-	if (isset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['loginString'], $_SESSION['type'])) {
+	if (isset($_SESSION['id'], $_SESSION['username'], $_SESSION['loginString'], $_SESSION['type'])) {
 
 		$db = openDb();
 		$sth = $db->prepare("SELECT password FROM users WHERE id = :userId LIMIT 1");
-		$sth->bindParam(':userId', $_SESSION['user_id'], PDO::PARAM_INT, 999);
+		$sth->bindParam(':userId', $_SESSION['id'], PDO::PARAM_INT, 999);
 		$sth->execute();
 
 		$result = $sth->fetchAll();
 		$db = closeDb();
 
+		$result = $result[0];
+
 		$check = hash('sha512', $result['password'] . $_SERVER['HTTP_USER_AGENT']);
 
-		if ($check == $_SESSION['loginstring']) {
+		if ($check == $_SESSION['loginString']) {
 			return true;
 		} else {
 			return false;
@@ -43,7 +44,9 @@ function loginRequired()
 
 function login($email, $password)
 {
-	session_start();
+	if (checkIfLoggedIn()) {
+		return true;
+	}
 
 	$db = openDb();
 	$sth = $db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
@@ -57,15 +60,21 @@ function login($email, $password)
 		$result = $result[0];
 
 		$db_password = $result['password'];
-		$password = hash('sha512', $result['password'] . $result['salt']);
+		$password = hash('sha512', $password . $result['salt']);
+		$loginString = hash('sha512', $password . $_SERVER['HTTP_USER_AGENT']);
+
 		if ($db_password == $password) {
 			foreach ($result as $key => $value) {
-				if ($key != array('password', 'salt')) {
+				if (is_numeric($key)) {
+					
+				} elseif (in_array($key, array("password", "salt"))) {
+
+				} else {
 					$_SESSION[$key] = $value;
 				}
 			}
 
-			$_SESSION['login_string'] = hash('sha512', $password . $_SERVER['HTTP_USER_AGENT']);
+			$_SESSION['loginString'] = $loginString;
 			return true;
 		} elseif ($db_password != $password) {
 			// Wrong password
