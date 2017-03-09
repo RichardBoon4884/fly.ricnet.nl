@@ -4,7 +4,7 @@ function route()
 	$url = splitUrl();
 	if (!$url['controller']) {
 		require(ROOT . 'controller/HomeController.php');
-		$controller = new FlightController();
+		$controller = new HomeController();
 		call_user_func(array($controller, "index"));
 	} elseif (file_exists(ROOT . 'controller/' . $url['controller'] . '.php')) {
 		require(ROOT . 'controller/' . $url['controller'] . '.php');
