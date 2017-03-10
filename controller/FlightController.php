@@ -9,17 +9,21 @@ class FlightController {
 		$this->view();
 	}
 
-	public function view() {
+	public function view($id = null) {
 		loginRequired();
 
 		$htmlentities["title"] = "Crew area";
 
 		$flightModel = new FlightModel();
 		$flights = $flightModel->getAllFlights();
+		// if (isset($id)) {$flight = $flightModel->getFlight($id);}
+		$flight = $flightModel->getFlight($id);
 
 		render("viewFlights", array(
 			'htmlentities' => $htmlentities,
-			'flights' => $flights
+			'flights' => $flights,
+			'flight' => $flight,
+			'id' => $id
 		));
 	}
 
@@ -46,8 +50,9 @@ class FlightController {
 
 			if (is_numeric($id)) {
 				header("Location: /flight/view/" . $id);
+			} else {
+				echo "Error";
 			}
-
 		}
 
 		$htmlentities["title"] = "Crew area";

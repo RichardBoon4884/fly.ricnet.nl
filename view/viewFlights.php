@@ -8,3 +8,10 @@
 <?php endforeach; ?>
 				</ul>
 			</nav>
+			<aside>
+			<?php var_dump($flight); ?>
+<?php if (isset($id)) : ?>
+				<h2><?php echo $flight['airline'] . " " . $flight['flightnumber']; ?></h2>
+				<div><?php echo $flight['fromAirportIcao'] . " > " . $flight['toAirportIcao']; ?></div>
+			</aside>
+<?php endif; ?>
