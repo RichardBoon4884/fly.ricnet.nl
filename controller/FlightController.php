@@ -16,8 +16,7 @@ class FlightController {
 
 		$flightModel = new FlightModel();
 		$flights = $flightModel->getAllFlights();
-		// if (isset($id)) {$flight = $flightModel->getFlight($id);}
-		$flightInfo = $flightModel->getFlight($id);
+        $flightInfo = isset($id) ? $flightModel->getFlight($id) : null;
 
 		render("viewFlights", array(
 			'htmlentities' => $htmlentities,
