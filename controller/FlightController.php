@@ -17,12 +17,12 @@ class FlightController {
 		$flightModel = new FlightModel();
 		$flights = $flightModel->getAllFlights();
 		// if (isset($id)) {$flight = $flightModel->getFlight($id);}
-		$flight = $flightModel->getFlight($id);
+		$flightInfo = $flightModel->getFlight($id);
 
 		render("viewFlights", array(
 			'htmlentities' => $htmlentities,
 			'flights' => $flights,
-			'flight' => $flight,
+			'flightInfo' => $flightInfo,
 			'id' => $id
 		));
 	}
