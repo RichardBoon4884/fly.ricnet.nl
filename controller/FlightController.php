@@ -45,13 +45,16 @@ class FlightController {
 			// $atcRoute = filter_input(INPUT_POST, 'atcRoute', FILTER_SANITIZE_STRING);
 			$fuel = filter_input(INPUT_POST, 'fuel', FILTER_SANITIZE_NUMBER_INT);
 
-			$id = $flightModel->addFlight($airlinerId, $flightNumber, $fromAirportId, $toAirportId, $aircraft, $picId, $firstOfficerId, $secondOfficerId, $preparedById, $atcRoute, $fuel);
+            if (empty($firstOfficerId)) {$firstOfficerId = 0;};
+            if (empty($secondOfficerId)) {$firstOfficerId = 0;};
 
-			if (is_numeric($id)) {
-				header("Location: /flight/view/" . $id);
+			$newFlightId = $flightModel->addFlight($airlinerId, $flightNumber, $fromAirportId, $toAirportId, $aircraft, $picId, $firstOfficerId, $secondOfficerId, $preparedById, $atcRoute, $fuel);
+
+			if (is_numeric($newFlightId)) {
+				header("Location: /flight/view/" . $newFlightId);
 			} else {
-				echo "Error";
-			}
+                echo "Error";
+            }
 		}
 
 		$htmlentities["title"] = "Crew area";

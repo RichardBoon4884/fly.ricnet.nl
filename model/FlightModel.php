@@ -45,7 +45,7 @@ class FlightModel {
         return $result;
     }
 
-    public function addFlight($airlinerId, $flightNumber, $fromAirportId, $toAirportId, $aircraft, $picId, $firstOfficerId, $secondOfficerId, $preparedById, $atcRoute, $fuel) {
+    public function addFlight($airlinerId, $flightNumber, $fromAirportId, $toAirportId, $aircraft, $picId, $firstOfficerId = null, $secondOfficerId = null, $preparedById, $atcRoute, $fuel) {
         try {
             $db = openDb();
             $sth = $db->prepare("INSERT INTO flights (
@@ -86,20 +86,26 @@ class FlightModel {
             $sth->bindParam(':atcRoute', $atcRoute);
             $sth->bindParam(':fuel', $fuel);
 
-            $sth->execute();
+            $succes = $sth->execute();
+
+            $lastId = $db->lastInsertId();
+
+            $result = $sth->fetchAll();
+
+            $db = closeDb();
+
+            echo $succes . "<br>";
+            if ($succes == true) {
+                return $lastId;
+            } else {
+                return false;
+            }
         }
         catch(PDOException $e)
         {
-            echo $e->getMessage();
-            die();
+            exit($e->getMessage());
+            return 0;
+
         }
-
-        $lastId = $db->lastInsertId();
-
-        $result = $sth->fetchAll();
-
-        $db = closeDb();
-
-        return $lastId;
     }
 }
