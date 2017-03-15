@@ -5,11 +5,10 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Ricnet Fly - <?php print $htmlentities["title"] ?></title>
+		<title>Ricnet Fly<?php if (!empty($htmlentities["title"])) {print " - " . $htmlentities["title"];}; ?></title>
 		<link rel="stylesheet" href="/styles/main_crew.css" />
-		<link rel="stylesheet" href="/chosen/chosen.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js" type="text/javascript"></script>
-		<script src="/chosen/chosen.jquery.js" type="text/javascript"></script>
+        <?php if (!empty($htmlentities["headAtr"])) {print $htmlentities["headAtr"];}; ?>
 	</head>
 	<body>
 		<header>
