@@ -92,6 +92,8 @@ class FlightModel {
 
             $result = $sth->fetchAll();
 
+            var_dump($secondOfficerId);
+
             $db = closeDb();
 
             echo $succes . "<br>";

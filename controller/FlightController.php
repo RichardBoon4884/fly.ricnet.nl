@@ -45,15 +45,15 @@ class FlightController {
 			// $atcRoute = filter_input(INPUT_POST, 'atcRoute', FILTER_SANITIZE_STRING);
 			$fuel = filter_input(INPUT_POST, 'fuel', FILTER_SANITIZE_NUMBER_INT);
 
-            if (empty($firstOfficerId)) {$firstOfficerId = 0;};
-            if (empty($secondOfficerId)) {$firstOfficerId = 0;};
+            if (empty($firstOfficerId)) {$firstOfficerId = NULL;};
+            if (empty($secondOfficerId)) {$secondOfficerId = NULL;};
 
 			$newFlightId = $flightModel->addFlight($airlinerId, $flightNumber, $fromAirportId, $toAirportId, $aircraft, $picId, $firstOfficerId, $secondOfficerId, $preparedById, $atcRoute, $fuel);
 
-			if (is_numeric($newFlightId)) {
+			if (is_numeric($newFlightId) and $newFlightId != 0) {
 				header("Location: /flight/view/" . $newFlightId);
 			} else {
-                echo "Error";
+                echo "Error: Can't insert to the database.";
             }
 		}
 
