@@ -58,6 +58,7 @@ class FlightController {
 		}
 
 		$htmlentities["title"] = "Crew area";
+		$htmlentities["headAtr"] = "<link rel=\"stylesheet\" href=\"/chosen/chosen.css\"><script src=\"/chosen/chosen.jquery.js\" type=\"text/javascript\"></script>";
 
 		$airlinerModel = new AirlinerModel();
 		$airliners = $airlinerModel->getAllAirliners();
