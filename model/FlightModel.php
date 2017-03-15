@@ -94,7 +94,6 @@ class FlightModel {
 
             $db = closeDb();
 
-            echo $succes . "<br>";
             if ($succes == true) {
                 return $lastId;
             } else {
