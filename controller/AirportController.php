@@ -20,7 +20,8 @@ class AirportController {
 		render("chartPage", array(
 			'htmlentities' => $htmlentities,
             'aiportWithCharts' => $aiportWithCharts,
-            'charts' => $charts
+            'charts' => $charts,
+            'airportId' => $par1
 		));
 	}
 }

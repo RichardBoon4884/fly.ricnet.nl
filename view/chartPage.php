@@ -17,7 +17,11 @@
 <!--		<form method="post"><select class="chosen-select" name="airport">-->
         <form><select class="chosen-select" name="airport" id="airport">
 <?php foreach ($aiportWithCharts as $aiportWithChart): ?>
+<?php if ($airportId == $aiportWithChart["icao"]) : ?>
+                <option value="<?php print $aiportWithChart["icao"]?>" selected="true"><?php print $aiportWithChart["icaoName"] . " - " . $aiportWithChart["name"]?></option>
+<?php else : ?>
                 <option value="<?php print $aiportWithChart["icao"]?>"><?php print $aiportWithChart["icaoName"] . " - " . $aiportWithChart["name"]?></option>
+<?php endif; ?>
 <?php endforeach; ?>
             </select><input type="button" value="Search" onclick="window.location.replace('/airport/chart/' + document.getElementById('airport').value)"></form>
 <?php if (isset($charts)) : ?>
