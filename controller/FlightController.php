@@ -13,6 +13,7 @@ class FlightController {
 		loginRequired();
 
 		$htmlentities["title"] = "Crew area";
+        $htmlentities["headAtr"] = "<link rel=\"stylesheet\" href=\"/leaflet/leaflet.css\" />\n		<script src=\"/leaflet/leaflet.js\"></script>";
 
 		$flightModel = new FlightModel();
 		$flights = $flightModel->getAllFlights();

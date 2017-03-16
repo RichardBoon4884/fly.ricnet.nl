@@ -10,7 +10,9 @@
 			</nav>
 			<aside>
 <?php if (isset($id)) : ?>
+                <div id="mapid" style="height: 500px;"></div>
 				<h2><?php echo $flightInfo['airline'] . " " . $flightInfo['flightnumber']; ?></h2>
 				<div><?php echo $flightInfo['fromAirportIcao'] . " > " . $flightInfo['toAirportIcao']; ?></div>
+                <script>var mymap = L.map('mapid').setView([51.505, -0.09], 13);</script>
 			</aside>
 <?php endif; ?>
