@@ -24,7 +24,7 @@
 					<nav class="list charts">
                         <ul>
 <?php foreach ($charts as $chart): ?>
-    <a href="<?php echo $chart["file_location"] ?>" target="chartScreen"><li class="box" id="<?php echo $chart["id"] ?>"><div class="chartName"><?php echo $chart["name"] ?></div><div  class="chartDescription"><?php echo $chart["description"] ?></div></li></a>
+    <a href="<?php echo $chart["file_location"] ?>" target="chartScreen"><li class="box" id="<?php echo $chart["icao"] ?>"><div class="chartName"><?php echo $chart["name"] ?></div><div  class="chartDescription"><?php echo $chart["description"] ?></div></li></a>
 <?php endforeach; ?>
                         </ul>
                     </nav>
