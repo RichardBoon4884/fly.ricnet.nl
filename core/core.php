@@ -23,4 +23,17 @@ function render($filename = null, $data = null)
 	http_response_code(200);
 }
 
+function renderAdmin($filename = null, $data = null)
+{
+    if ($data) {
+        foreach ($data as $key => $value) {
+            $$key = $value;
+        }
+    }
+    require(ROOT . 'view/_template_admin/header.php');
+    if (!empty($filename)) {require(ROOT . 'view/admin/' . $filename . '.php');}
+    require(ROOT . 'view/_template_admin/footer.php');
+    http_response_code(200);
+}
+
 require ROOT . 'core/auth.php';

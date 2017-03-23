@@ -19,4 +19,16 @@ class UserModel {
 		$db = closeDb();
 		return $result;
 	}
+    public function addUser($username, $email, $password, $firstname, $lastname, $role)
+    {
+        $db = openDb();
+
+
+
+        $sth->execute();
+
+        $result = $sth->fetchAll();
+        $db = closeDb();
+        return $result;
+    }
 }
