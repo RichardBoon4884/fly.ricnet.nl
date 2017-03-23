@@ -10,7 +10,7 @@ function closeDb() {
 	return null;
 }
 
-function render($filename, $data = null) 
+function render($filename = null, $data = null)
 {
 	if ($data) {
 		foreach ($data as $key => $value) {
@@ -18,7 +18,7 @@ function render($filename, $data = null)
 		}
 	}
 	require(ROOT . 'view/_template/header.php');
-	require(ROOT . 'view/' . $filename . '.php');
+	if (!empty($filename)) {require(ROOT . 'view/' . $filename . '.php');}
 	require(ROOT . 'view/_template/footer.php');
 	http_response_code(200);
 }
