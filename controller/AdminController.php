@@ -1,4 +1,5 @@
 <?php
+require ROOT . 'model/UserModel.php';
 
 class AdminController {
 	public function index()
@@ -21,7 +22,7 @@ class AdminController {
             die();
         }
 
-        $htmlentities["headAtr"] = "<script type=\"text/JavaScript\" src=\"/js/sha512.js\"></script>\n    <script type=\"text/JavaScript\" src=\"/js/forms.js\"></script>";
+        $htmlentities["headAtr"] = "<script type=\"text/JavaScript\" src=\"/js/sha512.js\"></script>\n        <script type=\"text/JavaScript\" src=\"/js/forms.js\"></script>";
 
         if (isset($_POST['username'], $_POST['email'], $_POST['p'], $_POST['firstname'], $_POST['lastname'], $_POST['role'])) {
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
@@ -34,7 +35,7 @@ class AdminController {
             }
             $firstname = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
             $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
-            $type = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
+            $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
 
             $password = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_STRING);
             if (strlen($password) != 128) {
@@ -42,11 +43,18 @@ class AdminController {
 
                 die();
             }
+            $userModel = new UserModel();
+            $newUserId = $userModel->addUser($username, $email, $password, $role, $firstname, $lastname);
 
-
+            if (is_numeric($newUserId) and $newUserId != 0) {
+                header("Location: /admin/edit/" . $newUserId);
+            } else {
+                echo "Error: Can't insert to the database.";
+            }
         }
 
-        renderAdmin("addUser");
+        renderAdmin("addUser", array(
+        'htmlentities' => $htmlentities));
     }
     public function edit()
     {
