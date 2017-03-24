@@ -56,7 +56,7 @@ class AdminController {
         renderAdmin("addUser", array(
         'htmlentities' => $htmlentities));
     }
-    public function edit()
+    public function edit($id = null)
     {
         loginRequired();
         if ($_SESSION["type"] != "administrator") {
@@ -65,6 +65,24 @@ class AdminController {
             die();
         }
 
-        renderAdmin();
+        $userModel = new UserModel();
+        $allUsers = $userModel->getAllUsers();
+
+        $user = isset($id) ? $userModel->getUser($id) : null;
+        $user = $user[0];
+
+        $htmlentities["headAtr"] = "<link rel=\"stylesheet\" href=\"/chosen/chosen.css\">\n		<script src=\"/chosen/chosen.jquery.js\" type=\"text/javascript\"></script>";
+
+        if (is_numeric($id)) {
+            renderAdmin("editUser", array(
+                'htmlentities' => $htmlentities,
+                'userId' => $id,
+                'user' => $user));
+        } else {
+            renderAdmin("selectUser", array(
+                'htmlentities' => $htmlentities,
+                'userId' => $id,
+                'allUsers' => $allUsers));
+        }
     }
 }
