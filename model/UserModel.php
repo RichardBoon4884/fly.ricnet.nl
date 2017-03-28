@@ -36,7 +36,7 @@ class UserModel {
 
         $sth->execute();
 
-        $result = $sth->fetchAll();
+        $result = $sth->fetch();
         $db = closeDb();
         return $result;
     }

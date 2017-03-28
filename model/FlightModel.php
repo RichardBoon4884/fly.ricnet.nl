@@ -49,8 +49,7 @@ class FlightModel {
 
         $sth->execute();
 
-        $result = $sth->fetchAll();
-        $result = $result[0];
+        $result = $sth->fetch();
         $db = closeDb();
         return $result;
     }

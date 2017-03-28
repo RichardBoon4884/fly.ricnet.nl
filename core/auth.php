@@ -53,11 +53,10 @@ function login($email, $password)
 	$sth->bindParam(':email', $email, PDO::PARAM_STR, 50);
 	$sth->execute();
 
-	$result = $sth->fetchAll();
+	$result = $sth->fetch();
 	$db = closeDb();
 
 	if (count($result) == 1) {
-		$result = $result[0];
 
 		$db_password = $result['password'];
 		$password = hash('sha512', $password . $result['salt']);

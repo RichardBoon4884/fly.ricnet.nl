@@ -69,7 +69,6 @@ class AdminController {
         $allUsers = $userModel->getAllUsers();
 
         $user = isset($id) ? $userModel->getUser($id) : null;
-        $user = $user[0];
 
         $htmlentities["headAtr"] = "<link rel=\"stylesheet\" href=\"/chosen/chosen.css\">\n		<script src=\"/chosen/chosen.jquery.js\" type=\"text/javascript\"></script>";
 
