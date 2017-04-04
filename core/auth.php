@@ -56,7 +56,7 @@ function login($email, $password)
 	$result = $sth->fetch();
 	$db = closeDb();
 
-	if (count($result) == 1) {
+	if (isset($result)) {
 
 		$db_password = $result['password'];
 		$password = hash('sha512', $password . $result['salt']);
